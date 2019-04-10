@@ -2,8 +2,11 @@
 # -*- coding: utf-8 -*-
 
 import pytest
-#from tdd.skeleton import word_counter
-from tdd.skeleton import twitter_word_counter
+from src.tdd.top_20_tweets_counter import word_counter
+from src.tdd.top_20_tweets_counter import twitter_word_counter
+
+from mock import MagicMock
+from requests.exceptions import HTTPError
 
 def test_tweets_words_counter_several_tweets():
     tweets = ['En tanto en cuanto nos den lo que es nuestro, discutiremos ese concepto con el fin de discutirlo…', 
@@ -19,9 +22,11 @@ def test_tweets_words_counter_several_tweets():
               'Villambrosa, cuidao con el, ¿eh? Villambrosa es un cabrón, tiene mucha pasta... Nada en la ambulancia.']
     twitter_counter = twitter_word_counter(None,None)
     twitter_counter.get_last_50_tweets = MagicMock(return_value=tweets)
-    assert twitter_counter.top_20_repetitive_word_counter() == [('concepto', 9), ('villambrosa', 4), ('eh', 3), ('si', 3), ('venir', 2), ('iba', 2), ('dejó', 2), ('vamos', 2), 
-                                                                ('digo', 2), ('señor', 2), ('ambulancia', 1), ('pasta', 1), ('mucha', 1), ('cabrón', 1), ('cuidao', 1), ('clarísimo', 1), 
-                                                                ('claro', 1), ('vasco', 1), ('país', 1), ('cambados', 1)]
+    assert twitter_counter.top_20_repetitive_word_counter() == [('concepto', 9), ('villambrosa', 4), ('eh', 3), ('si', 3), ('venir', 2),
+                                                                    ('iba', 2), ('dejó', 2), ('vamos', 2), ('digo', 2), ('señor', 2), 
+                                                                    ('ambulancia', 1), ('pasta', 1), ('mucha', 1), ('cabrón', 1), 
+                                                                    ('cuidao', 1), ('clarísimo', 1), ('claro', 1), ('vasco', 1), 
+                                                                    ('país', 1), ('cambados', 1)]
     
 def test_tweets_words_counter_with_an_account_withouth_tweets():
     tweets = []
@@ -37,7 +42,8 @@ def test_tweets_words_counter_with_one_tweet():
     
 def test_tweets_words_counter_if_twitter_api_fails():
     twitter_counter = twitter_word_counter(None,None)
-    twitter_counter.get_last_50_tweets = MagicMock(side_effect=requests.exceptions.HTTPError)
-    with pytest.raises(requests.exceptions.HTTPError):
+    twitter_counter.get_last_50_tweets = MagicMock(side_effect=HTTPError)
+    with pytest.raises(HTTPError):
         twitter_counter.top_20_repetitive_word_counter()
+        print(hola)
         
