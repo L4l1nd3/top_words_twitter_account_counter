@@ -4,7 +4,9 @@ Gets the text written on each tuit of one account and shows the top 20 used word
 ## @uthors
 <a href= 'https://github.com/L4l1nd3'>Álvaro Lalinde </a><br>
 Javier Lima<br>
-Rafael Rey
+Rafael Rey<br>
+Rafael Manzano
+
 
 ## To install the dependencies
 
